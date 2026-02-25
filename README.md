@@ -27,8 +27,48 @@ pip install -r requirements.txt
 3. Ensure Git LFS is installed to fetch the model file when cloning:
 
 ```bash
+# Brain Tumor Detection System
+
+Flask web application that classifies MRI images for brain tumor detection using a pre-trained TensorFlow/Keras model.
+
+## Repository layout
+
+- `app.py` — Flask application (server).
+- `models/model.h5` — Trained Keras model (tracked with Git LFS).
+- `templates/` — HTML templates.
+- `uploads/` — Uploaded images (runtime).
+- `requirements.txt` — Python dependencies.
+
+## Requirements
+
+- Python 3.8+ recommended
+- Git and Git LFS to fetch large model file
+
+## Setup (local development)
+
+1. Clone the repository (Git LFS required to download the model):
+
+```bash
+git clone https://github.com/Rajatraiiii/Brain_tumor_detection_system.git
+cd Brain_tumor_detection_system
 git lfs install
+git lfs pull
 ```
+
+2. Create and activate a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+3. Install Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. (Optional) If you don't have `models/model.h5` locally, `git lfs pull` from step 1 will download it.
 
 ## Run
 
@@ -36,9 +76,18 @@ git lfs install
 python app.py
 ```
 
-Open http://127.0.0.1:5000 in your browser.
+Then open http://127.0.0.1:5000 in your browser. The app serves an upload page where you can submit MRI images for classification.
 
-## Notes
+## Testing with sample images
 
-- The `models/model.h5` file is tracked via Git LFS; cloning this repository requires Git LFS to download the large model file.
-- The virtual environment directory is ignored by `.gitignore`.# Brain_tumor_detection_system
+Place sample MRI images in `uploads/` or use the web UI to upload images. The app will return a prediction (tumor / no tumor) and confidence score.
+
+## Notes & best practices
+
+- The `models/model.h5` file is tracked with Git LFS due to its size.
+- Do not commit virtual environment folders; `.gitignore` already excludes common venv directories.
+- If you need to retrain or update the model, create a new model file and track it with Git LFS.
+
+## Contact
+
+If you need help, open an issue on the GitHub repository or contact the project owner.
