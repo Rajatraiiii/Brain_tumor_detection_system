@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, send_from_directory
+from werkzeug.utils import secure_filename
+from werkzeug.exceptions import RequestEntityTooLarge
 import os
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
@@ -18,6 +20,13 @@ UPLOAD_FOLDER = "./uploads"
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# Upload validation
+# Maximum upload size (bytes) - 10 MB
+app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def predict_tumor(image_path):
     IMAGE_SIZE = 128
@@ -37,14 +46,27 @@ def predict_tumor(image_path):
 def index():
     if request.method == 'POST':
         file = request.files.get('file')
-        if file and file.filename:
-            # Save the uploaded file
-            file_location = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-            file.save(file_location)
+        if not file or not file.filename:
+            return render_template('index.html', result=None, error='No file selected')
 
-            # Predict the result
+        if not allowed_file(file.filename):
+            return render_template('index.html', result=None, error='Invalid file type. Allowed: png, jpg, jpeg, gif')
+
+        # Secure the filename and save
+        filename = secure_filename(file.filename)
+        file_location = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        try:
+            file.save(file_location)
+        except Exception as e:
+            return render_template('index.html', result=None, error=f'Failed to save file: {e}')
+
+        # Predict the result
+        try:
             result, confidence = predict_tumor(file_location)
-            return render_template('index.html', result=result, confidence=f'{confidence*100:.2f}%', file_path=f'/uploads/{file.filename}')
+        except Exception as e:
+            return render_template('index.html', result=None, error=f'Prediction failed: {e}')
+
+        return render_template('index.html', result=result, confidence=f'{confidence*100:.2f}%', file_path=f'/uploads/{filename}')
 
     return render_template('index.html', result=None)
 
@@ -54,3 +76,9 @@ def get_uploaded_file(filename):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+# Error handler for oversized uploads
+@app.errorhandler(RequestEntityTooLarge)
+def handle_file_too_large(e):
+    return render_template('index.html', result=None, error='File too large (max 10 MB)'), 413
