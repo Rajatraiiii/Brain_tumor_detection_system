@@ -1,0 +1,18 @@
+/Users/rajatrai/Brain_tumour/.venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+WARNING:absl:Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.
+ * Serving Flask app 'app.py'
+ * Debug mode: off
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5001
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 67ms/step[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 70ms/step
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 13:06:31] "POST / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 13:06:58] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 13:06:58] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 35ms/step[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 39ms/step
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 13:07:05] "POST / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 13:07:05] "GET /uploads/Te-gl_3.jpg HTTP/1.1" 200 -
+[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 35ms/step[1m1/1[0m [32m━━━━━━━━━━━━━━━━━━━━[0m[37m[0m [1m0s[0m 39ms/step
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 13:07:17] "POST / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [05/Apr/2026 13:07:17] "GET /uploads/Te-pi_2.jpg HTTP/1.1" 200 -
